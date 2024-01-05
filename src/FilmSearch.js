@@ -52,11 +52,20 @@ const FilmSearch = () => {
     const searchFilms = async () => {
         try {
             const response = await axios.get(`https://www.omdbapi.com/?apikey=${omdbApiKey}&s=${search}`);
-            setFilms(response.data.Search || []);
+
+            if (response.data.Response === 'True') {
+                // Check if the response indicates success
+                setFilms(response.data.Search || []);
+            } else {
+                // Handle the case where the API response indicates an error
+                console.error('Film arama hatası:', response.data.Error);
+            }
         } catch (error) {
-            console.error('Film arama hatası:', error);
+            // Handle general request errors
+            console.error('Film arama hatası:', error.message);
         }
     };
+
     const closeAlert = () => {
         setShowAlert(false);
     };
@@ -259,7 +268,7 @@ const FilmSearch = () => {
                             </div>
                         ))}
 
-                        
+
                     </div>
                 </div>
 
