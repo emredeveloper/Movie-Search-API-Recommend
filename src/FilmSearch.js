@@ -258,6 +258,8 @@ const FilmSearch = () => {
                                 </Card>
                             </div>
                         ))}
+
+                        
                     </div>
                 </div>
 
