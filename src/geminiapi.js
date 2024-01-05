@@ -19,8 +19,8 @@ bu türe Yakın 3 Film önerisi yaz:
 -----------------------------------------------------------------------------------------------
 3. 🎥 [Film Adı 3] - Rating: [Rating 3] - Kategori: [Kategori 3] - Açıklama: [Kısa Açıklama 3]
 
-Bu filmler, ${film} ile benzer kategorilere sahiptir ve rating'e göre sıralanmıştır. IMDb linklerini inceleyerek daha fazla bilgi edinebilmelerini sağla
-ayrıca film önerisi hakkında olumsuz yanıt dönme.
+Bu filmler, ${film} ile benzer kategorilere sahiptir. film önerisi hakkında olumsuz yanıt dönme.
+Filmler için en çok tavsiye ettiğin filmi sırası ile yaz ve neden en çok bunu tavsiye ettiğini kullanıcının girdiği filme ${film} göre arasındaki ilişkiyi belirt  ve çıktıda belirt bunu
 `;
 
         // Note: The replace function is used to escape special characters in the film descriptions.
