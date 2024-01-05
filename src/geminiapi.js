@@ -25,14 +25,17 @@ Film: ${filmTitle}
 Rating: ${rating}
 
 Yakın 3 Film:
-1. 🎥 ${similarFilms[0].name} - Rating: ${similarFilms[0].rating} - Kategori: ${similarFilms[0].category} - Açıklama: ${similarFilms[0].description}
+1. 🎥 ${similarFilms[0].name} - Rating: ${similarFilms[0].rating} - Kategori: ${similarFilms[0].category} - Açıklama: ${similarFilms[0].description.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&")}
 -----------------------------------------------------------------------------------------------
-2. 🎥 ${similarFilms[1].name} - Rating: ${similarFilms[1].rating} - Kategori: ${similarFilms[1].category} - Açıklama: ${similarFilms[1].description}
+2. 🎥 ${similarFilms[1].name} - Rating: ${similarFilms[1].rating} - Kategori: ${similarFilms[1].category} - Açıklama: ${similarFilms[1].description.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&")}
 -----------------------------------------------------------------------------------------------
-3. 🎥 ${similarFilms[2].name} - Rating: ${similarFilms[2].rating} - Kategori: ${similarFilms[2].category} - Açıklama: ${similarFilms[2].description}
+3. 🎥 ${similarFilms[2].name} - Rating: ${similarFilms[2].rating} - Kategori: ${similarFilms[2].category} - Açıklama: ${similarFilms[2].description.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&")}
 
 Bu filmler, ${filmTitle} ile benzer kategorilere sahiptir ve rating'e göre sıralanmıştır. IMDb linklerini inceleyerek daha fazla bilgi edinebilirsiniz.
 `;
+
+// Note: The replace function is used to escape special characters in the film descriptions.
+
 
             const result = await model.generateContent(prompt);
             const response = await result.response;
