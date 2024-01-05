@@ -5,6 +5,7 @@ import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import FilmDetail from './FilmDetail';
 import { generateFilmRecommendations } from './geminiapi';
+
 import './FilmSearch.css';
 import './App.css';
 import MyNavbar from "./navbar";
