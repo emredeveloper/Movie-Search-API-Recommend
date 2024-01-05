@@ -51,7 +51,8 @@ const FilmSearch = () => {
 
     const searchFilms = async () => {
         try {
-            const response = await axios.get(`https://www.omdbapi.com/?apikey=${omdbApiKey}&s=${search}`);
+
+            const response = await axios.get(`http://www.omdbapi.com/?apikey=${omdbApiKey}&s=${search}`);
 
             if (response.data.Response === 'True') {
                 // Check if the response indicates success
@@ -65,6 +66,7 @@ const FilmSearch = () => {
             console.error('Film arama hatası:', error.message);
         }
     };
+
 
     const closeAlert = () => {
         setShowAlert(false);
