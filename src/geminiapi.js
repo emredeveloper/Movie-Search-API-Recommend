@@ -14,10 +14,12 @@ const genAI = new GoogleGenerativeAI(api_key);
  */
 async function generateFilmRecommendations(filmTitle, rating, similarFilms) {
     try {
-        // "gemini-pro" modelini kullanarak film önerileri üret
-        const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+        // Check if similarFilms is provided and has at least 3 items
+        if (similarFilms && similarFilms.length >= 3) {
+            // "gemini-pro" modelini kullanarak film önerileri üret
+            const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
-        const prompt = `
+            const prompt = `
 🎬 **Film Önerisi**
 Film: ${filmTitle}
 Rating: ${rating}
@@ -32,11 +34,16 @@ Yakın 3 Film:
 Bu filmler, ${filmTitle} ile benzer kategorilere sahiptir ve rating'e göre sıralanmıştır. IMDb linklerini inceleyerek daha fazla bilgi edinebilirsiniz.
 `;
 
-        const result = await model.generateContent(prompt);
-        const response = await result.response;
-        const text = response.text();
+            const result = await model.generateContent(prompt);
+            const response = await result.response;
+            const text = response.text();
 
-        return text;
+            return text;
+        } else {
+            console.error('Not enough similarFilms data provided.');
+            // Handle the case where there are not enough similarFilms data
+            return 'Not enough similarFilms data provided.';
+        }
     } catch (error) {
         console.error('Film önerileri alınırken bir hata oluştu:', error);
         throw error;
