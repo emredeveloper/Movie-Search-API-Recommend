@@ -1,0 +1,13 @@
+
+
+.navbar-nav .nav-link {
+    transition: background-color 0.4s, color 0.9s, transform 0.9s, box-shadow 0.9s;
+}
+
+.navbar-nav .nav-link:hover {
+    background-color: #000000; /* Updated hover color - Dodger Blue */
+    color: #ffffff; /* Updated text color on hover - White */
+    transform: scale(1.10); /* Adds a slight scale effect on hover */
+    border-radius: 4px;
+    box-shadow: 2 10px 40px rgba(196, 32, 128, 0.1); /* Adds a subtle box shadow on hover - Dodger Blue */
+}

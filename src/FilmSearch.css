@@ -1,0 +1,92 @@
+/* src/FilmSearch.css */
+body {
+    background-color: #f8f9fa;
+    font-family: 'Arial', sans-serif;
+}
+
+.navbar {
+    background-color: #343a40;
+    color: #fff;
+}
+
+.navbar-brand, .nav-link {
+    color: #fff !important;
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+.list-group-item {
+    background-color: #fff;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.btn-link {
+    color: #007bff;
+    cursor: pointer;
+}
+
+.btn-link:hover {
+    text-decoration: underline;
+}
+
+.social-icon {
+    transition: transform 0.3s ease-in-out;
+}
+
+.social-icon:hover {
+    transform: rotate(360deg);
+}
+
+.explosion-container {
+    position: relative;
+    animation: explode 0.8s ease-in-out;
+}
+
+/* Define the explosion animation */
+@keyframes explode {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Use a single keyframes declaration for cleaner code */
+.explosion-container {
+    animation: explosion 0.5s ease-in-out;
+}
+
+@keyframes explosion {
+    0% {
+        transform: scale(0);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+/* Add this to your existing CSS or create a new CSS file */
+.alert-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #343a40;
+    color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.alert-content {
+    text-align: center;
+}
+
+.alert-content button {
+    margin-top: 10px;
+}
