@@ -12,8 +12,7 @@ async function generateFilmRecommendations(film, rating) {
 🎬 **Film Önerisi**
 Film: ${film}
 Rating: ${rating}
-
-Yakın 3 Film:
+bu türe Yakın 3 Film önerisi yaz:
 1. 🎥 [Film Adı 1] - Rating: [Rating 1] - Kategori: [Kategori 1] - Açıklama: [Kısa Açıklama 1]
 -----------------------------------------------------------------------------------------------
 2. 🎥 [Film Adı 2] - Rating: [Rating 2] - Kategori: [Kategori 2] - Açıklama: [Kısa Açıklama 2]
