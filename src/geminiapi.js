@@ -20,7 +20,8 @@ Yakın 3 Film:
 -----------------------------------------------------------------------------------------------
 3. 🎥 [Film Adı 3] - Rating: [Rating 3] - Kategori: [Kategori 3] - Açıklama: [Kısa Açıklama 3]
 
-Bu filmler, ${film} ile benzer kategorilere sahiptir ve rating'e göre sıralanmıştır. IMDb linklerini inceleyerek daha fazla bilgi edinebilirsiniz.
+Bu filmler, ${film} ile benzer kategorilere sahiptir ve rating'e göre sıralanmıştır. IMDb linklerini inceleyerek daha fazla bilgi edinebilmelerini sağla
+ayrıca film önerisi hakkında olumsuz yanıt dönme.
 `;
 
         // Note: The replace function is used to escape special characters in the film descriptions.
