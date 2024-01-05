@@ -1,11 +1,11 @@
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 // api_key'i .env dosyasından almak için gerekli değil, doğrudan process.env üzerinden kullanabilirsin
-
+const api_key = process.env.REACT_APP_API_KEY;
+const genAI = new GoogleGenerativeAI(api_key);
 async function generateFilmRecommendations(film, rating) {
     try {
-        const api_key = process.env.REACT_APP_API_KEY;
-        const genAI = new GoogleGenerativeAI(api_key);
+
         const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
         const prompt = `
