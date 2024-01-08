@@ -6,6 +6,7 @@ function App() {
         <div>
             <h1>Film Arama Uygulaması</h1>
             <FilmSearch />
+
         </div>
     );
 }

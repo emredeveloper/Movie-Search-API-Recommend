@@ -1,6 +1,6 @@
 // src/FilmSearch.js
 import React, { useState, useEffect } from 'react';
-import { Navbar, Container, Card, Button, Nav } from 'react-bootstrap';
+import {  Container, Card, Button } from 'react-bootstrap';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import FilmDetail from './FilmDetail';
@@ -10,7 +10,11 @@ import './FilmSearch.css';
 import './App.css';
 import MyNavbar from "./navbar";
 
+//const fs = require('fs');
+
 const omdbApiKey = process.env.REACT_APP_OMDB_API_KEY;
+const timezoneApiKey = process.env.REACT_APP_TIMEZONE_API_KEY; // Yeni eklenen API anahtarı
+
 
 const buttonStyleOner = {
     backgroundColor: '#051728',
@@ -42,11 +46,16 @@ const FilmSearch = () => {
     const [showAlert, setShowAlert] = useState(true);
     const [confirmChecked, setConfirmChecked] = useState(false);
     const [userName, setUserName] = useState('');
+    const [currentTime, setCurrentTime] = useState('');
 
 
     useEffect(() => {
         const container = document.getElementById('filmSearchContainer');
         container.classList.add('explosion-container');
+    }, []);
+
+    useEffect(() => {
+        timezone();
     }, []);
 
     const searchFilms = async () => {
@@ -69,14 +78,52 @@ const FilmSearch = () => {
     const closeAlert = () => {
         setShowAlert(false);
     };
+
     const getFilmRecommendations = async () => {
         try {
             const recommendations = await generateFilmRecommendations(search);
             setRecommendations(recommendations);
+            timezone(); // Film önerileri alındıktan sonra zaman bilgisini al
         } catch (error) {
             console.error('Film önerileri alınırken bir hata oluştu:', error);
         }
     };
+
+    const timestyle = {
+        backgroundColor: '#931bbb',
+        color: '#fff',
+        padding: '2px 10px',
+        borderRadius: '15px',
+
+    }
+    const timezone = async (City = "Istanbul",Country = "Turkey") => {
+        try {
+            const response = await axios.get(`https://timezone.abstractapi.com/v1/current_time/?api_key=${timezoneApiKey}&location=${City},${Country}`);
+            setCurrentTime(response.data);//if(response.status === 200){
+             //  fs.writeFileSync('output.json',JSON.stringify(response.data) );
+                console.log(response.data["latitude"]);
+
+
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const exchange = async () => {
+
+        try {
+
+            const response = axios.get('https://exchange-rates.abstractapi.com/v1/live/?api_key=${timezoneApiKey}&base=USD&target=TRY')
+                .then(function (response) {
+                    console.log(response.headers);
+                })
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+
+
     const confirmAndProceed = () => {
         if (userName && confirmChecked) {
             setShowAlert(false);
@@ -127,8 +174,11 @@ const FilmSearch = () => {
         setSelectedFilm(null);
     };
 
+
     return (
+
         <div id="filmSearchContainer" className="mt-4">
+
             {showAlert && (
                 <div className="alert-container">
                     <div className="alert-content">
@@ -166,19 +216,24 @@ const FilmSearch = () => {
                         <button type="button" className="btn btn-primary" onClick={confirmAndProceed}>
                             Onayla
                         </button>
+
                     </div>
                 </div>
             )}
 
+
             {/* Welcome message */}
             {showWelcomeMessage()}
+            <div>
 
-            <MyNavbar />
-
+                <h2 style={timestyle}>{currentTime && currentTime.datetime}</h2>
+            </div>
+            <MyNavbar/>
 
 
             <div style={{margin: '20px 0'}}></div>
             <Container>
+
                 <h1 className="mb-4">Film Arama</h1>
 
                 <div className="input-group mb-lg-4">
@@ -218,17 +273,27 @@ const FilmSearch = () => {
                         <div className="mt-4">
                             <h2>Aramınıza göre ilk 3 film önerisi</h2>
                             <Card>
-                                <Card.Body style={{backgroundColor: '#f2f2f2'}}>
-                                    <Card.Text>
-                                        {recommendations.split('\n').map((line, index) => (
-                                            <React.Fragment key={index}>
-                                                {line.trim() && <span>{line}<br/></span>}
-                                            </React.Fragment>
-                                        ))}
-                                    </Card.Text>
-                                    <Button variant="primary" onClick={downloadRecommendations}>
+                                <Card.Body style={{backgroundColor: '#d07de3'}}>
+                                    <Card.Body style={{ backgroundColor: '#f8f9fa', borderRadius: '10px', boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)' }}>
+                                        <Card.Text style={{ fontFamily: 'Georgia', fontSize: '20px', color: '#000000' }}>
+                                            {recommendations.split('\n').map((line, index) => (
+                                                <React.Fragment key={index}>
+                                                    {line.trim() && <span>{line}<br/></span>}
+                                                </React.Fragment>
+                                            ))}
+                                        </Card.Text>
+                                    </Card.Body>
+
+
+                                    <Button
+                                        style={{ backgroundColor: '#e8c1c1', color: '#000000', padding: '8px 16px', borderRadius: '15px', cursor: 'pointer', fontSize: '16px', fontWeight: 'bold', margin: '6px' }}
+                                        variant="primary"
+                                        onClick={downloadRecommendations}
+                                        className="custom-button"
+                                    >
                                         Önerileri Bilgisayara İndir!
                                     </Button>
+
                                 </Card.Body>
                             </Card>
                         </div>
