@@ -55,7 +55,7 @@ const FilmSearch = () => {
     }, []);
 
     useEffect(() => {
-        timezone();
+        timezone().then(r => console.log(r));
     }, []);
 
     const searchFilms = async () => {
@@ -74,16 +74,18 @@ const FilmSearch = () => {
             console.error('Film arama hatası:', error.message);
         }
     };
+    /**
+     * const closeAlert = () => {
+     *         setShowAlert(false);
+     *     };
+     */
 
-    const closeAlert = () => {
-        setShowAlert(false);
-    };
 
     const getFilmRecommendations = async () => {
         try {
             const recommendations = await generateFilmRecommendations(search);
             setRecommendations(recommendations);
-            timezone(); // Film önerileri alındıktan sonra zaman bilgisini al
+            timezone().then(r => console.log(r)); // Film önerileri alındıktan sonra zaman bilgisini al
         } catch (error) {
             console.error('Film önerileri alınırken bir hata oluştu:', error);
         }
@@ -109,19 +111,7 @@ const FilmSearch = () => {
         }
     };
 
-    const exchange = async () => {
 
-        try {
-
-            const response = axios.get('https://exchange-rates.abstractapi.com/v1/live/?api_key=${timezoneApiKey}&base=USD&target=TRY')
-                .then(function (response) {
-                    console.log(response.headers);
-                })
-        }
-        catch (error) {
-            console.log(error);
-        }
-    }
 
 
     const confirmAndProceed = () => {
