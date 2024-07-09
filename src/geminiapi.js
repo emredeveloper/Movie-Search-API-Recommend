@@ -5,7 +5,7 @@ const genAI = new GoogleGenerativeAI(api_key);
 
 async function generateFilmRecommendations(film, rating) {
     try {
-        const model = genAI.getGenerativeModel({ model: "gemini-pro-latest" });
+        const model = genAI.getGenerativeModel({ model: "gemini-1.0-pro-latest" });
 
         const prompt = `
 🎬 **Film Önerisi**
