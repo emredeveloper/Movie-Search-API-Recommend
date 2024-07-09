@@ -1,8 +1,10 @@
-// Örnek .eslintrc.js dosyası
+// .eslintrc.js
 module.exports = {
-    // ...
+    extends: [
+        'react-app',
+        // Diğer uzatmaları da buraya ekleyebilirsiniz
+    ],
     rules: {
-        // ...
-        'no-unused-vars': 'off', // veya 'warn' olarak ayarlayabilirsiniz
+        // Kuralları buraya ekleyin veya düzenleyin
     },
 };
