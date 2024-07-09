@@ -26,7 +26,7 @@ body {
 .alert-container,
 .recommendations-text {
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, .1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .btn-link {
@@ -39,7 +39,7 @@ body {
 }
 
 .social-icon {
-    transition: transform .3s ease-in-out;
+    transition: transform 0.3s ease-in-out;
 }
 
 .social-icon:hover {
@@ -48,26 +48,13 @@ body {
 
 .explosion-container {
     position: relative;
-    animation: .5s ease-in-out explosion;
-}
-
-@keyframes explode {
-    0% {
-        transform: scale(0);
-        opacity: 0;
-    }
-
-    100% {
-        transform: scale(1);
-        opacity: 1;
-    }
+    animation: explosion 0.5s ease-in-out;
 }
 
 @keyframes explosion {
     0% {
         transform: scale(0);
     }
-
     100% {
         transform: scale(1);
     }
@@ -100,17 +87,36 @@ body {
 
 .custom-button {
     background-color: #4781bb;
-    color: #ab3434;
+    color: #fff;
     padding: 8px 16px;
     border-radius: 15px;
     cursor: pointer;
     font-size: 16px;
-    font-weight: 700;
+    font-weight: bold;
     margin: 6px;
-    transition: background-color .3s ease-in-out;
+    transition: background-color 0.3s ease-in-out;
 }
 
 .custom-button:hover {
     background-color: #1a1a1a;
-    border-color: #1a1a1a;
+}
+
+@media (max-width: 768px) {
+    .input-group {
+        flex-direction: column;
+    }
+
+    .input-group-append {
+        margin-top: 10px;
+    }
+
+    .social-links {
+        margin-top: 20px;
+    }
+}
+
+@media (max-width: 576px) {
+    .btn {
+        font-size: 14px;
+    }
 }

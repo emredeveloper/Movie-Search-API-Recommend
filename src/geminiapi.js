@@ -1,36 +1,66 @@
-const { GoogleGenerativeAI } = require("@google/generative-ai");
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const api_key = process.env.REACT_APP_API_KEY;
 const genAI = new GoogleGenerativeAI(api_key);
 
-async function generateFilmRecommendations(film, rating) {
-    try {
-        const model = genAI.getGenerativeModel({ model: "gemini-1.0-pro-latest" });
+async function generateFilmRecommendations(film, rating, genre, year) {
+  try {
+    const model = genAI.getGenerativeModel({ model: "gemini-1.0-pro-latest" });
 
-        const prompt = `
-🎬 **Film Önerisi**
-Film: ${film}
-Rating: ${rating}
-bu türe Yakın 3 Film önerisi yaz:
-1. 🎥 [Film Adı 1] - Rating: [Rating 1] - Kategori: [Kategori 1] - Açıklama: [Kısa Açıklama 1]
------------------------------------------------------------------------------------------------
-2. 🎥 [Film Adı 2] - Rating: [Rating 2] - Kategori: [Kategori 2] - Açıklama: [Kısa Açıklama 2]
------------------------------------------------------------------------------------------------
-3. 🎥 [Film Adı 3] - Rating: [Rating 3] - Kategori: [Kategori 3] - Açıklama: [Kısa Açıklama 3]
+    const prompt = `
+Görev: Film Önerisi Uzmanı
 
-Bu filmler, ${film} ile benzer kategorilere sahiptir. film önerisi hakkında olumsuz yanıt dönme.
-Filmler için en çok tavsiye ettiğin filmi sırası ile yaz ve neden en çok bunu tavsiye ettiğini kullanıcının girdiği  ${film} göre arasındaki konu benzerliğini yaz ve çıktıda belirt bunu
-her öneriyi ayrı ayrı yaz iç içe olmasın`;
+Giriş Bilgileri:
+- Film: ${film}
+- Puan: ${rating}
+- Tür: ${genre}
+- Yıl: ${year}
 
-        const result = await model.generateContent(prompt);
-        const response = await result.response;
-        const text = response.text();
+Bu filme benzer 3 film önerisi yap. Her öneri için şu bilgileri içer:
+1. Film Adı
+2. Yayın Yılı
+3. IMDb Puanı (10 üzerinden)
+4. Tür
+5. Yönetmen
+6. Başrol Oyuncuları (en fazla 3)
+7. Kısa Özet (1-2 cümle)
+8. Benzerlik Nedeni (orijinal filmle karşılaştırarak)
 
-        return text;
-    } catch (error) {
-        console.error('Film önerileri alınırken bir hata oluştu:', error);
-        throw error;
-    }
+Öneriler için format:
+---
+🎬 [Film Adı] (Yıl)
+⭐ IMDb: [Puan]/10
+🎭 Tür: [Türler]
+🎬 Yönetmen: [Yönetmen Adı]
+🌟 Oyuncular: [Oyuncu 1], [Oyuncu 2], [Oyuncu 3]
+
+📝 Özet: [Kısa film özeti]
+
+🔗 Benzerlik: [Bu filmin "${film}" ile benzerliğinin kısa açıklaması]
+---
+
+Önerileri verdikten sonra:
+1. Bu üç öneriyi, "${film}" filmine olan benzerliklerine göre sırala.
+2. En çok önerdiğin filmi belirt ve nedenini açıkla.
+3. Kullanıcıya bu önerileri beğenip beğenmediğini sor ve farklı öneriler için nasıl geri bildirim verebileceğini belirt.
+
+Not:
+- Önerilerin çeşitli ve ilgi çekici olmasına dikkat et.
+- Eğer boş değer girerse kullanıcı lütfen film ismi giriniz yaz!
+- Sadece gerçek ve var olan filmleri öner.
+- Önerilerin doğruluğundan emin değilsen, bunu belirt.
+- Film önerilerinde olumsuz bir yanıt verme, her zaman pozitif ve yardımcı ol.
+`;
+
+    const result = await model.generateContent(prompt);
+    const response = await result.response;
+    const text = response.text();
+
+    return text;
+  } catch (error) {
+    console.error('Film önerileri alınırken bir hata oluştu:', error);
+    throw error;
+  }
 }
 
 export { generateFilmRecommendations };

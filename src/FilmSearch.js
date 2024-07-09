@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Card, Button } from 'react-bootstrap';
+import { Container, Card, Button, Form } from 'react-bootstrap';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import FilmDetail from './FilmDetail';
 import { generateFilmRecommendations } from './geminiapi';
-
 import './FilmSearch.css';
 import './App.css';
-import MyNavbar from "./navbar";
 
 const omdbApiKey = process.env.REACT_APP_OMDB_API_KEY;
 
@@ -47,7 +45,6 @@ const FilmSearch = () => {
     const searchFilms = async () => {
         try {
             const response = await axios.get(`https://www.omdbapi.com/?apikey=${omdbApiKey}&s=${search}`);
-
             if (response.data.Response === 'True') {
                 setFilms(response.data.Search || []);
             } else {
@@ -61,6 +58,10 @@ const FilmSearch = () => {
     const getFilmRecommendations = async () => {
         try {
             const recommendations = await generateFilmRecommendations(search);
+            if (!recommendations) {
+                window.alert('Lütfen öneri almak için bir film adı girin!');
+                return;
+            }
             setRecommendations(recommendations);
         } catch (error) {
             console.error('Film önerileri alınırken bir hata oluştu:', error);
@@ -104,53 +105,51 @@ const FilmSearch = () => {
 
     return (
         <div id="filmSearchContainer" className="mt-4">
-            <MyNavbar />
-
-            <div style={{margin: '20px 0'}}></div>
+            <div style={{ margin: '20px 0' }}></div>
             <Container>
                 <h1 className="mb-4">Film Arama</h1>
 
                 <div className="input-group mb-lg-4">
-                    <input
+                    <Form.Control
                         type="text"
-                        className="form-control"
                         placeholder="Film arayın"
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
                     />
                     <div className="input-group-append">
-                        <button className="btn btn-outline-secondary" type="button" onClick={searchFilms} style={buttonStyleAra}>
+                        <Button variant="outline-secondary" onClick={searchFilms} style={buttonStyleAra}>
                             Ara
-                        </button>
+                        </Button>
                     </div>
                 </div>
 
                 <div>
-                    <label
-                        style={{
-                            marginRight: '10px',
-                            fontWeight: 'bold',
-                            color: '#070606',
-                            fontSize: '14px',
-                        }}
-                        htmlFor="filmInput"
-                    >
-                        Öneri İçin İzlediğiniz Filmin Tam Adını Girin:
-                    </label>
-
-                    <input type="text" id="filmInput" value={search} onChange={(e) => setSearch(e.target.value)}/>
-                    <button onClick={getFilmRecommendations} style={buttonStyleOner}>Film Öner!!</button>
+                    <Form.Group controlId="filmInput">
+                        <Form.Label style={{ fontWeight: 'bold', color: '#070606', fontSize: '14px' }}>
+                            Öneri İçin İzlediğiniz Filmin Tam Adını Girin:
+                        </Form.Label>
+                        <Form.Control
+                            type="text"
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                            placeholder="Film adı..."
+                            style={{ borderRadius: '15px', padding: '10px', marginTop: '5px' }}
+                        />
+                        <Button onClick={getFilmRecommendations} style={buttonStyleOner}>
+                            Film Öner!!
+                        </Button>
+                    </Form.Group>
 
                     {recommendations && (
                         <div className="mt-4">
                             <h2>Aramınıza göre ilk 3 film önerisi</h2>
                             <Card>
-                                <Card.Body style={{backgroundColor: '#d07de3'}}>
+                                <Card.Body style={{ backgroundColor: '#d07de3' }}>
                                     <Card.Body style={{ backgroundColor: '#f8f9fa', borderRadius: '10px', boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)' }}>
                                         <Card.Text style={{ fontFamily: 'Georgia', fontSize: '20px', color: '#000000' }}>
                                             {recommendations.split('\n').map((line, index) => (
                                                 <React.Fragment key={index}>
-                                                    {line.trim() && <span>{line}<br/></span>}
+                                                    {line.trim() && <span>{line}<br /></span>}
                                                 </React.Fragment>
                                             ))}
                                         </Card.Text>
@@ -173,25 +172,25 @@ const FilmSearch = () => {
                         <div className="mt-4">
                             <h2>{selectedFilm.Title} Detayları</h2>
                             <Card>
-                                <Card.Body style={{backgroundColor: '#f2f2f2'}}>
+                                <Card.Body style={{ backgroundColor: '#f2f2f2' }}>
                                     <Card.Text>
-                                        <strong>Tür:</strong> {selectedFilm.omdbDetails?.type}<br/>
-                                        <strong>Yayın Tarihi:</strong> {selectedFilm.omdbDetails?.released}<br/>
-                                        <strong>Tür:</strong> {selectedFilm.omdbDetails?.genre}<br/>
-                                        <strong>Plot:</strong> {selectedFilm.omdbDetails?.plot}<br/>
+                                        <strong>Tür:</strong> {selectedFilm.omdbDetails?.type}<br />
+                                        <strong>Yayın Tarihi:</strong> {selectedFilm.omdbDetails?.released}<br />
+                                        <strong>Tür:</strong> {selectedFilm.omdbDetails?.genre}<br />
+                                        <strong>Plot:</strong> {selectedFilm.omdbDetails?.plot}<br />
                                     </Card.Text>
                                 </Card.Body>
                             </Card>
                         </div>
                     )}
 
-                    <div style={{margin: '20px 0'}}></div>
+                    <div style={{ margin: '20px 0' }}></div>
 
                     <div className="row">
                         {films.map((film) => (
                             <div key={film.imdbID} className="col-md-4 mb-4">
                                 <Card>
-                                    <Card.Img variant="top" src={film.Poster} alt={film.Title}/>
+                                    <Card.Img variant="top" src={film.Poster} alt={film.Title} />
                                     <Card.Body>
                                         <Card.Title>{film.Title}</Card.Title>
                                         <Card.Text>Yıl: {film.Year}</Card.Text>
@@ -205,18 +204,18 @@ const FilmSearch = () => {
                     </div>
                 </div>
 
-                {selectedFilm && <FilmDetail film={selectedFilm} onHide={hideFilmDetail}/>}
+                {selectedFilm && <FilmDetail film={selectedFilm} onHide={hideFilmDetail} />}
             </Container>
 
             <div className="social-links text-center">
                 <a href="https://www.linkedin.com/in/cihatemrekaratas/" target="_blank" rel="noopener noreferrer">
-                    <i className="fab fa-linkedin-in fa-2x mx-3 social-icon" style={{color: '#0077B5', transition: 'transform 0.9s ease-in-out'}}></i>
+                    <i className="fab fa-linkedin-in fa-2x mx-3 social-icon" style={{ color: '#0077B5', transition: 'transform 0.9s ease-in-out' }}></i>
                 </a>
                 <a href="https://github.com/emredeveloper" target="_blank" rel="noopener noreferrer">
-                    <i className="fab fa-github fa-2x mx-3 social-icon" style={{color: '#24292e'}}></i>
+                    <i className="fab fa-github fa-2x mx-3 social-icon" style={{ color: '#24292e' }}></i>
                 </a>
                 <a href="https://www.kaggle.com/emre21" target="_blank" rel="noopener noreferrer">
-                    <i className="fab fa-kaggle fa-2x mx-3 social-icon" style={{color: '#20BEFF'}}></i>
+                    <i className="fab fa-kaggle fa-2x mx-3 social-icon" style={{ color: '#20BEFF' }}></i>
                 </a>
             </div>
         </div>
