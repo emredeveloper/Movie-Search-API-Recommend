@@ -46,7 +46,6 @@ Bu filme benzer 3 film önerisi yap. Her öneri için şu bilgileri içer:
 
 Not:
 - Önerilerin çeşitli ve ilgi çekici olmasına dikkat et.
-- Eğer boş değer girerse kullanıcı lütfen film ismi giriniz yaz!
 - Sadece gerçek ve var olan filmleri öner.
 - Önerilerin doğruluğundan emin değilsen, bunu belirt.
 - Film önerilerinde olumsuz bir yanıt verme, her zaman pozitif ve yardımcı ol.
